@@ -7,12 +7,37 @@ import ReactPaginate from 'react-paginate';
 
 const Main = (props) => {
     const [pageNumber,setPageNumber] = useState(0);
+    const [searchProduct, setSearchProduct] = useState('');
     const productPerPage=3;
     const pagesVisited = pageNumber*productPerPage
     const {products,addItem} = props;
+    const [showProducts, setShowProducts] = useState(products);
+    const filterSearch = (event)=>{
 
-    const pageCount = Math.ceil(products.length/ productPerPage);
-    const displayProducts = products.slice(pagesVisited, pagesVisited+productPerPage).map((product =>{
+        console.log("oringinal valie########",showProducts)
+        setSearchProduct(event.target.value)
+    }
+    useEffect(() => {
+        console.log(products,"<<<<<<<<<<>>>>>>>",showProducts)
+        setShowProducts(products)
+      }, [])
+  
+    useEffect(() => {
+        console.log(showProducts,"useefecte==>>>>>>",products)
+        products.filter( (prod=>{
+            if(searchProduct!="" ){
+                if( prod.name.toLowerCase().includes(searchProduct.toLocaleLowerCase()) ){
+                    setShowProducts([...showProducts, prod]);
+                    console.log("filter search=========",showProducts)
+                }
+            }
+    
+        })
+        ); 
+    }, [searchProduct])
+
+    const pageCount = Math.ceil(showProducts.length/ productPerPage);
+    const displayProducts = showProducts.slice(pagesVisited, pagesVisited+productPerPage).map((product =>{
         console.log("product--------->",product)
         return(
             <div className="row">
@@ -27,6 +52,8 @@ const Main = (props) => {
     }
     return (
         <main className="col">
+            <input type="text" placeholder="Buscar..." onChange={filterSearch}/>
+
           {displayProducts}
           <ReactPaginate 
           previousLabel={"Anterior"}

@@ -4,13 +4,12 @@ import Product from './Product';
 import Products from './Products'
 
 const Main = (props) => {
-    const {products} = props;
-    console.log("----------------->",props)
+    const {products,addItem} = props;
     return (
-        <main>
-            <div className="col-8">
+        <main className="col-8">
+            <div >
                 {products.map((product) => (
-                  <Product key={product.id} product={product}/>
+                  <Product addItem={addItem} key={product.id} product={product}/>
                   
                 ))}
                 

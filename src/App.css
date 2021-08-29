@@ -36,3 +36,29 @@
     transform: rotate(360deg);
   }
 }
+
+.paginationButtons{
+  width: 70%;
+  height: 35px;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+}
+
+.paginationButtons a{
+  padding: 10px;
+  margin: 8px;
+  border-radius: 8px;
+  border: 1px solid rebeccapurple;
+  color: #282c34;
+  cursor: pointer;
+}
+
+.paginationButtons a:hover{
+  color:aliceblue;
+  background-color:honeydew;
+}
+.activePage a{
+  color:aliceblue;
+  background-color:honeydew;
+}

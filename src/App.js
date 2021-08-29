@@ -2,6 +2,7 @@ import './App.css';
 import Header from './components/Header';
 import Cart from './components/Cart';
 import Shop from './components/Shop';
+import ReactPaginate from 'react-paginate';
 //import {BrowserRouter as Router, Switch, Route} from "react-router-dom"
 //import Products from './components/Products';
 //import Product from './components/Product';

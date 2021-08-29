@@ -7,15 +7,17 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import api from '../services/api'
 import { all, constant } from 'async';
-
+import ReactPaginate from 'react-paginate';
 const Shop = () => {
-   // const [products,setProducts] = useState([]);
+   // use state 
     const [cartItems, setCartItem] = useState([]);
-    const [product, setProducts] = useState([]);
-    const {products} = data
+    const [products, setProducts] = useState([]);
+
+    
+
     const fetchProductos= async ()=>{
         console.log(axios.getUri)
-        const response = await axios.get("/products");
+        const response = await axios.get("/products/products");
         console.log("fetchProducts-------------->",response)
         return response;
     }
@@ -25,39 +27,46 @@ const Shop = () => {
 
             const allProducts = await fetchProductos();
             console.log("allProducts---------->",allProducts)
-            if(allProducts) setProducts(allProducts)
+            if(allProducts) setProducts(allProducts.data)
         }
 
         getAllProducts();
     }, [])
-    const addItem = (product) => {
+    const addItem = (products) => {
        fetchProductos();
         console.log("shop clicked on addItem")
-        const exist = cartItems.find(item => item.id ===product.id);
+        const exist = cartItems.find(item => item.id ===products.id);
         if (exist) {
 
-            setCartItem(cartItems.map(item => item.id===product.id? {...exist, qtty:exist.qtty+1}:item))  
+            setCartItem(cartItems.map(item => item.id===products.id? {...exist, qtty:exist.qtty+1}:item))  
             console.log(cartItems)
 
         }
-        else setCartItem([...cartItems,{...product,qtty:1}])
+        else setCartItem([...cartItems,{...products,qtty:1}])
     }
-    const removeItem = (product) =>{
-        const exist = cartItems.find(item => item.id ===product.id);
+    const removeItem = (products) =>{
+        const exist = cartItems.find(item => item.id ===products.id);
         if (exist) {
 
-            setCartItem(cartItems.filter(item => item.id!== product.id ))  
+            setCartItem(cartItems.filter(item => item.id!== products.id ))  
         }
-        else  setCartItem(cartItems.map(item => item.id===product.id? {...exist, qtty:exist.qtty-1}:item))  
+        else  setCartItem(cartItems.map(item => item.id===products.id? {...exist, qtty:exist.qtty-1}:item))  
         console.log(cartItems)
     }
+
+
+        
+
     return (
         <div className="container">
             <div className="row">
-
-            <Main addItem={addItem} products = {products} />
+                <div className="col-8" >
+                        <Main addItem={addItem} products = {products} />
+                </div>
+                <div className="col-4" >
+                    <Cart addItem = {addItem} removeItem = {removeItem} cartItems={cartItems}/>
+                </div>
             </div>
-            <Cart addItem = {addItem} removeItem = {removeItem} cartItems={cartItems} className="col-8"/>
         </div>
     )
 }

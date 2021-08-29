@@ -13,8 +13,8 @@ const Shop = () => {
     const [cartItems, setCartItem] = useState([]);
     const [products, setProducts] = useState([]);
 
-    
 
+    
     const fetchProductos= async ()=>{
         console.log(axios.getUri)
         const response = await axios.get("/products/products");
@@ -32,6 +32,7 @@ const Shop = () => {
 
         getAllProducts();
     }, [])
+    
     const addItem = (products) => {
        fetchProductos();
         console.log("shop clicked on addItem")
@@ -44,9 +45,10 @@ const Shop = () => {
         }
         else setCartItem([...cartItems,{...products,qtty:1}])
     }
+  
     const removeItem = (products) =>{
         const exist = cartItems.find(item => item.id ===products.id);
-        if (exist) {
+        if (exist.qtty===1) {
 
             setCartItem(cartItems.filter(item => item.id!== products.id ))  
         }
